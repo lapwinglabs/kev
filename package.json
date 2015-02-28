@@ -1,0 +1,31 @@
+{
+  "name": "kev",
+  "version": "0.0.0",
+  "description": "Key-Value API with pluggable backends. So simple, even Kevin Malone could use it.",
+  "main": "kev.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "key",
+    "value",
+    "key",
+    "value",
+    "database",
+    "storage"
+  ],
+  "author": "Brian Dentino",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.9.13"
+  },
+  "devDependencies": {
+    "mongodb": "^1.4.31",
+    "prok": "0.0.4",
+    "prok-wait": "0.0.3",
+    "redis": "^0.12.1"
+  }
+}
