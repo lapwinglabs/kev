@@ -4,8 +4,6 @@ var KevMongo = Kev.Mongo
 var KevRedis = Kev.Redis
 var assert = require('assert')
 
-var MongoServer = require('mongodb').Server
-
 var kevmem = Kev({ store: KevMemory() });
 var kevmongo = Kev({ store: KevMongo( { url: process.env.MONGO_URL } ) })
 var kevredis = Kev({ store: KevRedis( { port: process.env.REDIS_PORT } ) })
