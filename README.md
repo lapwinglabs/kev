@@ -53,7 +53,7 @@ There is, of course, still work to do. Kev plans to implement the following feat
  - Streams
  - Glob-matching keys
 
- ## Getting Kev
- ```npm install kev```
+## Getting Kev
+```npm install kev```
 
- Mongo and Redis are listed as dev dependencies to keep the footprint light. If you're using one of them for your storage layer, make sure you add it to your project's package.json independently.
+Mongo and Redis are listed as dev dependencies to keep the footprint light. If you're using one of them for your storage layer, make sure you add it to your project's package.json independently.
