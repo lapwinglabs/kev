@@ -28,6 +28,3 @@ Kev.prototype.close = function close(done) {
 }
 
 Kev.Memory = KevMemory
-Kev.Mongo = require('./plugins/mongo.js')
-Kev.Redis = require('./plugins/redis.js')
-// TODO: Kev.Level = require('level.js')

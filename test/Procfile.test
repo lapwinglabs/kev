@@ -1,3 +1,1 @@
-redis: redis-server test/redis.conf.test
-mongo: ./node_modules/.bin/prok-wait --port $REDIS_PORT; mongod --dbpath test/db/mongo --quiet --port $MONGO_PORT
-test: ./node_modules/.bin/prok-wait --port $MONGO_PORT; node test/test.js
+test: node test/test.js

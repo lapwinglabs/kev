@@ -1,6 +1,6 @@
 {
   "name": "kev",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Key-Value API with pluggable backends. So simple, even Kevin Malone could use it.",
   "main": "kev.js",
   "directories": {
@@ -19,13 +19,7 @@
   ],
   "author": "Brian Dentino",
   "license": "MIT",
-  "dependencies": {
-    "bluebird": "^2.9.13"
-  },
   "devDependencies": {
-    "mongodb": "^1.4.31",
-    "prok": "0.0.4",
-    "prok-wait": "0.0.3",
-    "redis": "^0.12.1"
+    "prok": "0.0.4"
   }
 }
