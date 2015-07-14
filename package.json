@@ -17,7 +17,7 @@
     "database",
     "storage"
   ],
-  "author": "Brian Dentino",
+  "author": "Lapwing Labs",
   "license": "MIT",
   "devDependencies": {
     "prok": "0.0.4"
