@@ -1,4 +1,9 @@
 
+0.1.0 / 2015-07-13
+==================
+  - Pulled out mongo and redis adapters into separate repos
+  - Cleaned up dependency structure
+
 0.0.2 / 2015-03-01
 ==================
 
