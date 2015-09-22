@@ -20,10 +20,14 @@
   "author": "Lapwing Labs",
   "license": "MIT",
   "devDependencies": {
-    "prok": "0.0.4"
+    "prok": "0.0.6"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/lapwinglabs/kev"
   },
   "dependencies": {
-    "bluebird": "^2.10.1",
+    "bluebird": "2.10.1",
     "only": "0.0.2"
   }
 }
