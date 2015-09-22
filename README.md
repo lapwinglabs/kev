@@ -49,6 +49,7 @@ You see, I am Kev. You are Kev. We are all Kev, living in fear of trading speed 
 There is, of course, still work to do. Kev plans to implement the following features as the need arises:
  - Prefixed namespaces
  - Atomic operations
+ - Batch puts/dels (adapter-specific)
  - LevelDB adapter
  - Streams
  - Glob-matching keys
