@@ -1,15 +1,21 @@
+var only = require('only')
+
 var KevMemory = module.exports = function KevMemory(options) {
   if (!(this instanceof KevMemory)) return new KevMemory(options)
   this.storage = {}
 }
 
 KevMemory.prototype.get = function(key, done) {
-  done(null, this.storage[key] || null);
+  if (Array.isArray(key)) {
+    done(null, only(this.storage, key.join(' ')) || null)
+  } else {
+    done(null, this.storage[key] || null)
+  }
 }
 
 KevMemory.prototype.put = function(key, value, done) {
   var old = this.storage[key] || null
-  this.storage[key] = value;
+  this.storage[key] = value
   if (done) done(null, old)
 }
 

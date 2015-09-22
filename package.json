@@ -21,5 +21,9 @@
   "license": "MIT",
   "devDependencies": {
     "prok": "0.0.4"
+  },
+  "dependencies": {
+    "bluebird": "^2.10.1",
+    "only": "0.0.2"
   }
 }
