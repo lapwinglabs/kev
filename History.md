@@ -1,4 +1,9 @@
 
+0.2.0 / 2015-09-21
+==================
+
+  * switch tests to promises, add batch get to kev-memory
+
 0.1.0 / 2015-07-13
 ==================
   * Pulled out mongo and redis adapters into separate repos
