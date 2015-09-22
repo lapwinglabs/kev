@@ -1,6 +1,6 @@
 {
   "name": "kev",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Key-Value API with pluggable backends. So simple, even Kevin Malone could use it.",
   "main": "kev.js",
   "directories": {

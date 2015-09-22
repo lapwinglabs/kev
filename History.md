@@ -1,4 +1,9 @@
 
+0.2.1 / 2015-09-21
+==================
+
+  * update repository field in package.json, pin deps, add make install
+
 0.2.0 / 2015-09-21
 ==================
 
