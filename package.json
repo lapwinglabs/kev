@@ -23,11 +23,13 @@
     "prok": "0.0.6"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/lapwinglabs/kev"
+    "type": "git",
+    "url": "https://github.com/lapwinglabs/kev"
   },
   "dependencies": {
     "bluebird": "2.10.1",
+    "glob-to-regexp": "0.1.0",
+    "object-assign": "4.0.1",
     "only": "0.0.2"
   }
 }

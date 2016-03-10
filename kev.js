@@ -1,24 +1,48 @@
 var KevMemory = require('./plugins/memory.js')
-
 var Kev = module.exports = function Kev(options) {
   if (!(this instanceof Kev)) return new Kev(options)
 
   if (!options.store) this.store = KevMemory()
   else this.store = options.store
+
+  this.tagLocks = {}
 }
 
-Kev.prototype.get = function get(key, done) {
-  this.store.get(key, done)
+Kev.prototype.get = function get (keys, done) {
+  var single = typeof keys === 'string'
+  this.store.get(single ? [keys] : keys, (e, v) => done(e, single && v ? v[keys] : v))
   return this
 }
 
-Kev.prototype.put = function put(key, value, done) {
-  this.store.put(key, value, done)
+Kev.prototype.put = Kev.prototype.set = function put (key, value, options, done) {
+  var keys = {}, single = typeof key === 'string'
+  if (single) {
+    keys[key] = value
+    single = true
+  } else if (Array.isArray(key)) {
+    keys = key.reduce((p, c) => { p[c] = value; return p }, {})
+  } else if (typeof key === 'object') {
+    keys = key
+    done = options
+    options = value
+  }
+  if (typeof options === 'function') { done = options; options = {} }
+  this.store.put(keys, options, (e, v) => done && done(e, single && v ? v[key] : v))
   return this
 }
 
-Kev.prototype.del = function del(key, done) {
-  this.store.del(key, done)
+Kev.prototype.del = function del (key, done) {
+  var single = typeof key === 'string'
+  this.store.del(single ? [key] : key, (e, v) => done(e, single && v ? v[key] : v))
+  return this
+}
+
+Kev.prototype.drop = function drop (pattern, done) {
+  if (typeof pattern === 'function') {
+    done = pattern
+    pattern = '*'
+  }
+  this.store.drop(pattern, done)
   return this
 }
 
