@@ -1,4 +1,10 @@
 
+0.3.0 / 2016-03-10
+==================
+
+  * add put options to api, standardize arguments passed to plugin functions, factor out plugin test code, support multi-put/del
+  * add batch puts/dels to TODO
+
 0.2.1 / 2015-09-21
 ==================
 
