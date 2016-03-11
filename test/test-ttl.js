@@ -24,7 +24,8 @@ module.exports = function (store, options) {
     return kev.getAsync('key2')
   }).then((value) => {
     assert.equal(value, null)
-    kev.close()
     console.log('TTL PASSED')
+  }).then(() => {
+    return kev.close()
   })
 }

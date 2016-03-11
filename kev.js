@@ -46,6 +46,18 @@ Kev.prototype.drop = function drop (pattern, done) {
   return this
 }
 
+Kev.prototype.tag = function tag (key, tag, done) {
+  var single = typeof tag === 'string'
+  this.store.tag(key, single ? [tag] : tag, done)
+  return this
+}
+
+Kev.prototype.dropTag = function tag (tag, done) {
+  var single = typeof tag === 'string'
+  this.store.dropTag(single ? [tag] : tag, done)
+  return this
+}
+
 Kev.prototype.close = function close(done) {
   this.store.close(done)
   return this

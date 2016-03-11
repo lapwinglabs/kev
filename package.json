@@ -29,6 +29,7 @@
   "dependencies": {
     "bluebird": "2.10.1",
     "glob-to-regexp": "0.1.0",
+    "juration": "0.0.1",
     "object-assign": "4.0.1",
     "only": "0.0.2"
   }
