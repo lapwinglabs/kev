@@ -11,7 +11,7 @@ var KevMemory = module.exports = function KevMemory(options) {
   this.keyTags = {}
 }
 
-KevMemory.prototype.get = function(keys, done) {
+KevMemory.prototype.get = function(keys, options, done) {
   var out = only(this.storage, keys.join(' '))
   keys.forEach((key) => { if (!out[key]) out[key] = null })
   setImmediate(() => done(null, out))

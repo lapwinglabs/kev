@@ -53,6 +53,8 @@ module.exports = function (store, options) {
     return kev.getAsync(['100', '300'])
   }).then((values) => {
     assert.deepEqual(values, { '100': null, '300': null })
+    return kev.dropAsync('*')
+  }).then(() => {
     return kev.close()
   }).then(() => {
     console.log('CORE PASSED')

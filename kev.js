@@ -8,9 +8,14 @@ var Kev = module.exports = function Kev(options) {
   this.tagLocks = {}
 }
 
-Kev.prototype.get = function get (keys, done) {
+Kev.prototype.get = function get (keys, options, done) {
   var single = typeof keys === 'string'
-  this.store.get(single ? [keys] : keys, (e, v) => done(e, single && v ? v[keys] : v))
+  if (typeof options === 'function') {
+    done = options
+    options = {}
+  }
+  options = options || {}
+  this.store.get(single ? [keys] : keys, options, (e, v) => done(e, single && v ? v[keys] : v))
   return this
 }
 

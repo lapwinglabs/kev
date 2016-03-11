@@ -24,8 +24,10 @@ module.exports = function (store, options) {
     return kev.getAsync('key2')
   }).then((value) => {
     assert.equal(value, null)
-    console.log('TTL PASSED')
+    return kev.dropAsync('*')
   }).then(() => {
     return kev.close()
+  }).then(() => {
+    console.log('TTL PASSED')
   })
 }
