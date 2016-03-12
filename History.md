@@ -1,4 +1,9 @@
 
+0.6.0 / 2016-03-11
+==================
+
+  * consolidate memory, mongo, and redis plugins into main lib for now to simplify development cycle
+
 0.5.0 / 2016-03-10
 ==================
 
