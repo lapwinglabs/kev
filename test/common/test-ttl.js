@@ -2,7 +2,7 @@
 
 var assert = require('assert')
 var Promise = require('bluebird')
-var Kev = require('..')
+var Kev = require('../../kev')
 
 module.exports = function (store, options) {
   var kev = Promise.promisifyAll(Kev({ store: store }))
@@ -26,7 +26,7 @@ module.exports = function (store, options) {
     assert.equal(value, null)
     return kev.dropAsync('*')
   }).then(() => {
-    return kev.close()
+    return kev.closeAsync()
   }).then(() => {
     console.log('TTL PASSED')
   })

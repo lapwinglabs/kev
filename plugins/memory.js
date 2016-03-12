@@ -51,6 +51,10 @@ KevMemory.prototype.tag = function (key, tags, done) {
   done && setImmediate(() => done())
 }
 
+KevMemory.prototype.tags = function (keys, done) {
+  done && setImmediate(() => done(null, keys.reduce((o, k) => { o[k] = this.keyTags[k]; return o }, {})))
+}
+
 KevMemory.prototype.dropTag = function (tags, done) {
   var sum = tags.reduce((sum, tag) => {
     var keys = this.tagKeys[tag]

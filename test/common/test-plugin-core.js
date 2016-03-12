@@ -2,7 +2,7 @@
 
 var assert = require('assert')
 var Promise = require('bluebird')
-var Kev = require('..')
+var Kev = require('../../kev')
 
 module.exports = function (store, options) {
   var kev = Promise.promisifyAll(Kev({ store: store }))
@@ -45,6 +45,10 @@ module.exports = function (store, options) {
   }).then(() => {
     return kev.tagAsync('100', 'hundred')
   }).then(() => {
+    return kev.tagsAsync('100')
+  }).then((tags) => {
+    assert.deepEqual(tags, [ 'hundred' ])
+  }).then(() => {
     return kev.tagAsync('300', 'hundred')
   }).then(() => {
     return kev.dropTagAsync('hundred')
@@ -55,7 +59,7 @@ module.exports = function (store, options) {
     assert.deepEqual(values, { '100': null, '300': null })
     return kev.dropAsync('*')
   }).then(() => {
-    return kev.close()
+    return kev.closeAsync()
   }).then(() => {
     console.log('CORE PASSED')
   })

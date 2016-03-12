@@ -1,11 +1,11 @@
 var Promise = require('bluebird')
 var assert = require('assert')
-var Kev = require('../kev')
-Promise.promisifyAll(Kev.prototype)
+var Kev = require('../../kev')
 var KevMemory = Kev.Memory
-var test_core = require('./test-plugin-core')
-var test_ttl = require('./test-ttl')
+var test_core = require('../common/test-plugin-core')
+var test_ttl = require('../common/test-ttl')
 
+Promise.promisifyAll(Kev.prototype)
 Promise.resolve()
   .then(() => test_core(KevMemory()))
   .then(() => test_ttl(KevMemory({ ttl: 5 })))

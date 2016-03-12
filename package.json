@@ -20,17 +20,25 @@
   "author": "Lapwing Labs",
   "license": "MIT",
   "devDependencies": {
-    "prok": "0.0.6"
+    "mongodb": "2.x.x",
+    "mongoose": "4.4.7",
+    "prok-wait": "0.0.3",
+    "redis": "2.x.x"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/lapwinglabs/kev"
   },
   "dependencies": {
-    "bluebird": "2.10.1",
+    "bluebird": "3.3.4",
+    "deep-assign": "2.0.0",
     "glob-to-regexp": "0.1.0",
     "juration": "0.0.1",
     "object-assign": "4.0.1",
     "only": "0.0.2"
+  },
+  "peerDependencies": {
+    "redis": "2.x.x",
+    "mongodb": "2.x.x"
   }
 }
