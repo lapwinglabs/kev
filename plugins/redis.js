@@ -64,7 +64,7 @@ KevRedis.prototype.put = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.put.bind(this, keys, options, done))
   var compress = merge_opt(options.compress, this.options.compress)
   var restore = merge_opt(options.restore, this.options.restore)
-  var ttl = options.ttl || options.ttl === 0 ? options.ttl : this.options.ttl
+  var ttl = options.ttl || options.ttl === 0 ? seconds(String(options.ttl)) : this.options.ttl
   for (var key in keys) {
     var prefixed = this.options.prefix + key
     keys[key] = pack(compress, restore)(keys[key])

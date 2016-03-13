@@ -100,7 +100,7 @@ KevMongo.prototype.get = function get (keys, options, done) {
 KevMongo.prototype.put = function put (keys, options, done) {
   var compress = merge_opt(options.compress, this.options.compress)
   var restore = merge_opt(options.restore, this.options.restore)
-  var ttl = options.ttl || options.ttl === 0 ? options.ttl : this.options.ttl
+  var ttl = options.ttl || options.ttl === 0 ? seconds(String(options.ttl)) : this.options.ttl
   this.storage.then((db) => {
     for (key in keys) {
       var query = { [ID_KEY]: key }
