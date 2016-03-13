@@ -47,10 +47,11 @@ var KevRedis = module.exports = function KevRedis (options) {
 KevRedis.prototype.get = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.get.bind(this, keys, done))
   var prefixed = keys.map((k) => this.options.prefix + k)
-  options = assign({}, this.options, options)
+  var opts = assign({}, this.options)
+  opts = assign(opts, options)
   this.storage.mgetAsync(prefixed)
     .reduce((out, v, idx) => {
-      out[keys[idx]] = unpack(options.compress, options.restore)(v)
+      out[keys[idx]] = unpack(opts.compress, opts.restore)(v)
       return out
     }, {})
     .props()
@@ -60,14 +61,15 @@ KevRedis.prototype.get = function (keys, options, done) {
 
 KevRedis.prototype.put = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.put.bind(this, keys, options, done))
-
-  var ttl = options.ttl ? seconds(String(options.ttl)) : this.options.ttl
+  var opts = assign({}, this.options)
+  opts = assign(opts, options)
+  if (opts.ttl) var ttl = seconds(String(opts.ttl))
   for (var key in keys) {
-    var prefixed = this.options.prefix + key
-    keys[key] = pack(this.options.compress, this.options.restore)(keys[key])
+    var prefixed = opts.prefix + key
+    keys[key] = pack(opts.compress, opts.restore)(keys[key])
       .then((v) => this.storage.getsetAsync(prefixed, v))
       .tap((v) => ttl && this.storage.expire(prefixed, ttl))
-      .then(unpack(this.options.compress, this.options.restore))
+      .then(unpack(opts.compress, opts.restore))
   }
 
   Promise.props(keys)
