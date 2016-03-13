@@ -3,6 +3,7 @@ var seconds = require('juration').parse
 var zlib = require('zlib')
 var globber = require('glob-to-regexp')
 var assign = require('deep-assign')
+var copy = require('deep-copy')
 var Resurrector = require('../lib/resurrect')
 
 var DEFAULT_MONGO_URL = 'mongodb://127.0.0.1:27017/kev'
@@ -84,12 +85,12 @@ var KevMongo = module.exports = function KevMongo (options) {
 }
 
 KevMongo.prototype.get = function get (keys, options, done) {
-  var opts = assign({}, this.options)
-  opts = assign(opts, options)
+  var compress = merge_opt(options.compress, this.options.compress)
+  var restore = merge_opt(options.restore, this.options.restore)
   this.storage.then((db) => db.findAsync({ [ID_KEY]: { $in: keys } }))
     .then((r) => Promise.fromCallback(r.toArray.bind(r)))
     .filter((v) => !expired(v))
-    .reduce((out, v) => { out[v[ID_KEY]] = unpack(opts.compress, opts.restore)(v[DATA_FIELD_KEY]); return out }, {})
+    .reduce((out, v) => { out[v[ID_KEY]] = unpack(compress, restore)(v[DATA_FIELD_KEY]); return out }, {})
     .props()
     .tap((out) => { keys.forEach((k) => { out[k] = out[k] || null }) })
     .then((out) => done && done(null, out))
@@ -97,19 +98,19 @@ KevMongo.prototype.get = function get (keys, options, done) {
 }
 
 KevMongo.prototype.put = function put (keys, options, done) {
-  var opts = assign({}, this.options)
-  opts = assign(opts, options)
+  var compress = merge_opt(options.compress, this.options.compress)
+  var restore = merge_opt(options.restore, this.options.restore)
+  var ttl = options.ttl || options.ttl === 0 ? options.ttl : this.options.ttl
   this.storage.then((db) => {
-    var ttl = opts.ttl ? seconds(String(opts.ttl)) : opts.ttl
     for (key in keys) {
       var query = { [ID_KEY]: key }
       var update = { [ID_KEY]: key }
       if (ttl) update[TTL_KEY] = new Date(Date.now() + ttl * 1000)
-      keys[key] = pack(opts.compress, opts.restore)(keys[key])
+      keys[key] = pack(compress, restore)(keys[key])
         .then((v) => update[DATA_FIELD_KEY] = v)
         .then(() => db.findOneAndReplaceAsync(query, update, { upsert: true }))
         .then((r) => (r && r.value && !expired(r.value)) ? r.value[DATA_FIELD_KEY] : null)
-        .then(unpack(opts.compress, opts.restore))
+        .then(unpack(compress, restore))
     }
     return Promise.props(keys)
       .then((v) => done && done(null, v))
@@ -208,4 +209,11 @@ function unpack (compress, restore) {
       else done(null, restore.unpack(JSON.parse(val.toString())))
     })
   })
+}
+
+function merge_opt (target, source) {
+  if (target === false) return false
+  if (!target) return source
+  if (!source || source === true) return target
+  return assign({}, copy(target), copy(source))
 }

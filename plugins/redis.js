@@ -3,6 +3,7 @@ var seconds = require('juration').parse
 var Resurrector = require('../lib/resurrect')
 var zlib = require('zlib')
 var assign = require('deep-assign')
+var copy = require('deep-copy')
 
 var KevRedis = module.exports = function KevRedis (options) {
   if (!(this instanceof KevRedis)) return new KevRedis(options)
@@ -46,12 +47,12 @@ var KevRedis = module.exports = function KevRedis (options) {
 
 KevRedis.prototype.get = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.get.bind(this, keys, done))
+  var compress = merge_opt(options.compress, this.options.compress)
+  var restore = merge_opt(options.restore, this.options.restore)
   var prefixed = keys.map((k) => this.options.prefix + k)
-  var opts = assign({}, this.options)
-  opts = assign(opts, options)
   this.storage.mgetAsync(prefixed)
     .reduce((out, v, idx) => {
-      out[keys[idx]] = unpack(opts.compress, opts.restore)(v)
+      out[keys[idx]] = unpack(compress, restore)(v)
       return out
     }, {})
     .props()
@@ -61,15 +62,15 @@ KevRedis.prototype.get = function (keys, options, done) {
 
 KevRedis.prototype.put = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.put.bind(this, keys, options, done))
-  var opts = assign({}, this.options)
-  opts = assign(opts, options)
-  if (opts.ttl) var ttl = seconds(String(opts.ttl))
+  var compress = merge_opt(options.compress, this.options.compress)
+  var restore = merge_opt(options.restore, this.options.restore)
+  var ttl = options.ttl || options.ttl === 0 ? options.ttl : this.options.ttl
   for (var key in keys) {
-    var prefixed = opts.prefix + key
-    keys[key] = pack(opts.compress, opts.restore)(keys[key])
+    var prefixed = this.options.prefix + key
+    keys[key] = pack(compress, restore)(keys[key])
       .then((v) => this.storage.getsetAsync(prefixed, v))
       .tap((v) => ttl && this.storage.expire(prefixed, ttl))
-      .then(unpack(opts.compress, opts.restore))
+      .then(unpack(compress, restore))
   }
 
   Promise.props(keys)
@@ -228,4 +229,11 @@ function unpack (compress, restore) {
       })
     }
   })
+}
+
+function merge_opt (target, source) {
+  if (target === false) return false
+  if (!target) return source
+  if (!source || source === true) return target
+  return assign({}, copy(target), copy(source))
 }
