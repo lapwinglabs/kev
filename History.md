@@ -1,4 +1,10 @@
 
+0.6.1 / 2016-03-13
+==================
+
+  * fix redis bug overwriting this.options with individual call options
+  * fix mongo bug overwriting this.options with individual call options
+
 0.6.0 / 2016-03-11
 ==================
 
