@@ -84,7 +84,8 @@ var KevMongo = module.exports = function KevMongo (options) {
 }
 
 KevMongo.prototype.get = function get (keys, options, done) {
-  var opts = assign({}, this.options, options)
+  var opts = assign({}, this.options)
+  opts = assign(opts, options)
   this.storage.then((db) => db.findAsync({ [ID_KEY]: { $in: keys } }))
     .then((r) => Promise.fromCallback(r.toArray.bind(r)))
     .filter((v) => !expired(v))
@@ -96,7 +97,8 @@ KevMongo.prototype.get = function get (keys, options, done) {
 }
 
 KevMongo.prototype.put = function put (keys, options, done) {
-  var opts = assign({}, this.options, options)
+  var opts = assign({}, this.options)
+  opts = assign(opts, options)
   this.storage.then((db) => {
     var ttl = opts.ttl ? seconds(String(opts.ttl)) : opts.ttl
     for (key in keys) {
