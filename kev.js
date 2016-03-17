@@ -33,7 +33,7 @@ Kev.prototype.put = Kev.prototype.set = function put (key, value, options, done)
     options = value
   }
   if (typeof options === 'function') { done = options; options = {} }
-  this.store.put(keys, options, (e, v) => done && done(e, single && v ? v[key] : v))
+  this.store.put(keys, options || {}, (e, v) => done && done(e, single && v ? v[key] : v))
   return this
 }
 

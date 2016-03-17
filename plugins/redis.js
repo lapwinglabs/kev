@@ -23,7 +23,6 @@ var KevRedis = module.exports = function KevRedis (options) {
   else options.prefix = 'kev:'
   this.options = options
 
-  this.options = options
   var restore = options.restoreTypes || {}
   if (restore.pack && restore.unpack) {
     this.options.restore = restore
