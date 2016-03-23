@@ -23,7 +23,7 @@ KevMemory.prototype.put = function(keys, options, done) {
   assign(this.storage, keys)
   if (options.ttl) {
     var ttl = seconds(String(options.ttl))
-    Object.keys(keys).map((k) => setTimeout(() => delete this.storage[k], ttl))
+    Object.keys(keys).map((k) => setTimeout(() => delete this.storage[k], ttl * 1000))
   }
   if (done) setImmediate(() => done(null, old))
 }
