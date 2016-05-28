@@ -1,4 +1,11 @@
 
+0.6.6 / 2016-05-27
+==================
+
+  * add bulk get/set/del test
+  * fix redis bulk insert & double-prefixing
+  * fix mongo bulk insert
+
 0.6.5 / 2016-03-22
 ==================
 
