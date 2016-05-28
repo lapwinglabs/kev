@@ -16,7 +16,7 @@ var KevRedis = module.exports = function KevRedis (options) {
   options.port = options.port || 6379
   options.host = options.host || '127.0.0.1'
   options.compress = options.compress || false
-  var client = Redis.createClient(options.port, options.host, options)
+  var client = Redis.createClient(options.port, options.host)
 
   if (options.ttl) options.ttl = seconds(String(options.ttl))
   if (options.prefix) options.prefix = options.prefix + ':'
@@ -63,12 +63,17 @@ KevRedis.prototype.put = function (keys, options, done) {
   if (!this.storage) return this.pendingOps.push(this.put.bind(this, keys, options, done))
   var compress = merge_opt(options.compress, this.options.compress)
   var restore = merge_opt(options.restore, this.options.restore)
+  var storage = this.storage
   var ttl = options.ttl || options.ttl === 0 ? seconds(String(options.ttl)) : this.options.ttl
   for (var key in keys) {
     var prefixed = this.options.prefix + key
-    keys[key] = pack(compress, restore)(keys[key])
-      .then((v) => this.storage.getsetAsync(prefixed, v))
-      .tap((v) => ttl && this.storage.expire(prefixed, ttl))
+    keys[key] = put(prefixed, keys[key])
+  }
+
+  function put (key, value) {
+    return pack(compress, restore)(value)
+      .then((v) => storage.getsetAsync(key, v))
+      .tap((v) => ttl && storage.expire(key, ttl))
       .then(unpack(compress, restore))
   }
 
