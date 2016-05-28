@@ -19,6 +19,20 @@ module.exports = function (store, options) {
   }).then((value) => {
     assert.equal(value, null)
   }).then(() => {
+    return kev.putAsync({ group1: 'value1', group2: 'value2' })
+  }).then(() => {
+    return kev.getAsync(['group1', 'group2'])
+  }).then((values) => {
+    assert.equal(values.group1, 'value1')
+    assert.equal(values.group2, 'value2')
+  }).then(() => {
+    return kev.delAsync([ 'group1', 'group2' ])
+  }).then(() => {
+    return kev.getAsync([ 'group1', 'group2' ])
+  }).then((values) => {
+    assert.equal(values.group1, null)
+    assert.equal(values.group2, null)
+  }).then(() => {
     var max = 2000
     var puts = []
     for (var i = 1; i <= max; i++) {
