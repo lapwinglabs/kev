@@ -103,15 +103,20 @@ KevMongo.prototype.put = function put (keys, options, done) {
   var ttl = options.ttl || options.ttl === 0 ? seconds(String(options.ttl)) : this.options.ttl
   this.storage.then((db) => {
     for (key in keys) {
+      keys[key] = put(key, keys[key])
+    }
+
+    function put (key, value) {
       var query = { [ID_KEY]: key }
       var update = { [ID_KEY]: key }
       if (ttl) update[TTL_KEY] = new Date(Date.now() + ttl * 1000)
-      keys[key] = pack(compress, restore)(keys[key])
+      return pack(compress, restore)(value)
         .then((v) => update[DATA_FIELD_KEY] = v)
         .then(() => db.findOneAndReplaceAsync(query, update, { upsert: true }))
         .then((r) => (r && r.value && !expired(r.value)) ? r.value[DATA_FIELD_KEY] : null)
         .then(unpack(compress, restore))
     }
+
     return Promise.props(keys)
       .then((v) => done && done(null, v))
       .catch((e) => done && done(e))
