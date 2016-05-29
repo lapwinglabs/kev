@@ -45,7 +45,7 @@ var KevRedis = module.exports = function KevRedis (options) {
 }
 
 KevRedis.prototype.get = function (keys, options, done) {
-  if (!this.storage) return this.pendingOps.push(this.get.bind(this, keys, done))
+  if (!this.storage) return this.pendingOps.push(this.get.bind(this, keys, options, done))
   var compress = merge_opt(options.compress, this.options.compress)
   var restore = merge_opt(options.restore, this.options.restore)
   var prefixed = keys.map((k) => this.options.prefix + k)
