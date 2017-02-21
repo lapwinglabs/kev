@@ -1,4 +1,10 @@
 
+0.6.8 / 2017-02-21
+==================
+
+  * fix bug re: keys with spaces in memory plugin
+  * move redis/mongo out of peerDependencies into devDependencies
+
 0.6.7 / 2016-05-28
 ==================
 
