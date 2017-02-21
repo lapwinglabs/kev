@@ -12,14 +12,14 @@ var KevMemory = module.exports = function KevMemory(options) {
 }
 
 KevMemory.prototype.get = function(keys, options, done) {
-  var out = only(this.storage, keys.join(' '))
+  var out = only(this.storage, keys)
   keys.forEach((key) => { if (!out[key]) out[key] = null })
   setImmediate(() => done(null, out))
 }
 
 KevMemory.prototype.put = function(keys, options, done) {
   var options = assign({}, this.options, options)
-  var old = only(this.storage, Object.keys(keys).join(' '))
+  var old = only(this.storage, Object.keys(keys))
   assign(this.storage, keys)
   if (options.ttl) {
     var ttl = seconds(String(options.ttl))
@@ -29,7 +29,7 @@ KevMemory.prototype.put = function(keys, options, done) {
 }
 
 KevMemory.prototype.del = function(keys, done) {
-  var old = only(this.storage, keys.join(' '))
+  var old = only(this.storage, keys)
   keys.map((k) => this._delete(k))
   if (done) setImmediate(() => done(null, old))
 }

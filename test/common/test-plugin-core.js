@@ -19,12 +19,13 @@ module.exports = function (store, options) {
   }).then((value) => {
     assert.equal(value, null)
   }).then(() => {
-    return kev.putAsync({ group1: 'value1', group2: 'value2' })
+    return kev.putAsync({ group1: 'value1', group2: 'value2', 'group space': 'value3' })
   }).then(() => {
-    return kev.getAsync(['group1', 'group2'])
+    return kev.getAsync(['group1', 'group2', 'group space'])
   }).then((values) => {
     assert.equal(values.group1, 'value1')
     assert.equal(values.group2, 'value2')
+    assert.equal(values['group space'], 'value3')
   }).then(() => {
     return kev.delAsync([ 'group1', 'group2' ])
   }).then(() => {

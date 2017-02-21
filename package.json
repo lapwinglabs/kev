@@ -37,9 +37,5 @@
     "juration": "0.0.1",
     "object-assign": "4.0.1",
     "only": "0.0.2"
-  },
-  "peerDependencies": {
-    "redis": "2.x.x",
-    "mongodb": "2.x.x"
   }
 }
