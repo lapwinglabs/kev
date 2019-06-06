@@ -1,8 +1,0 @@
-dir test/db/redis/
-port 6351
-
-# save every 1 second
-# if 1 key has changed
-# default: 60 1000
-# (bad for perf, but good for dev :-P)
-save 1 1

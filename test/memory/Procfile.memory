@@ -1,1 +1,0 @@
-test-memory: node test/memory/memory.js

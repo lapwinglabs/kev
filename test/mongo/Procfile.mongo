@@ -1,2 +1,0 @@
-mongo: mongod --dbpath test/db/mongo --quiet --port $MONGO_PORT
-test-mongo: ./node_modules/.bin/prok-wait --port $MONGO_PORT; node test/mongo/mongo.js

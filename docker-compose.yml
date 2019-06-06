@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  test:
+    build:
+      context: .
+      args:
+        NODE_ENV: test
+    command: test
+    volumes:
+      - ./src:/usr/src/kev/src
+    links:
+      - redis
+      - mongo
+    environment:
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://mongo:27017/test
+
+  redis:
+    image: redis:alpine
+
+  mongo:
+    image: mongo:4.0
+    command: --replSet repl
+    volumes:
+      - ./db/mongo/init-rs.js:/docker-entrypoint-initdb.d/init-rs.js

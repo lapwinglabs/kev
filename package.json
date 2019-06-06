@@ -2,12 +2,14 @@
   "name": "kev",
   "version": "0.6.8",
   "description": "Key-Value API with pluggable backends. So simple, even Kevin Malone could use it.",
-  "main": "kev.js",
-  "directories": {
-    "test": "test"
-  },
+  "main": "src/index.js",
   "scripts": {
-    "test": "make test"
+    "test": "jest",
+    "lint": "eslint src",
+    "precommit": "npm run lint",
+    "prepush": "npm run dc:test",
+    "dc:destroy": "docker-compose $(make dc.files) down -v --remove-orphans",
+    "dc:test": "docker-compose $(make dc.files) build test && docker-compose $(make dc.files) run test test --"
   },
   "keywords": [
     "key",
@@ -17,25 +19,37 @@
     "database",
     "storage"
   ],
-  "author": "Lapwing Labs",
+  "author": "Finbox Inc.",
   "license": "MIT",
   "devDependencies": {
-    "mongodb": "2.x.x",
-    "mongoose": "4.4.7",
-    "prok-wait": "0.0.3",
-    "redis": "2.x.x"
+    "delay": "4.2.0",
+    "envvar": "2.0.0",
+    "eslint": "5.16.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.17.3",
+    "eslint-plugin-jest": "22.6.4",
+    "eslint-plugin-node": "9.1.0",
+    "eslint-plugin-promise": "4.1.1",
+    "eslint-plugin-standard": "4.0.0",
+    "husky": "2.4.0",
+    "jest": "24.8.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lapwinglabs/kev"
+    "url": "https://github.com/finboxio/kev"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
-    "bluebird": "3.3.4",
-    "deep-assign": "2.0.0",
-    "deep-copy": "1.1.0",
-    "glob-to-regexp": "0.1.0",
-    "juration": "0.0.1",
-    "object-assign": "4.0.1",
-    "only": "0.0.2"
+    "dataloader": "1.4.0",
+    "glob-to-regexp": "0.4.1",
+    "into-stream": "5.1.0",
+    "ioredis": "4.9.5",
+    "mongodb": "3.2.7",
+    "ms": "2.1.1",
+    "resurrect-js": "1.0.1",
+    "stream-to-array": "2.3.0",
+    "stream-transform": "2.0.0"
   }
 }

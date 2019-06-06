@@ -1,2 +1,0 @@
-redis: redis-server test/redis/redis.conf.test
-test-redis: ./node_modules/.bin/prok-wait --port $REDIS_PORT; node test/redis/redis.js

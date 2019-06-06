@@ -22,11 +22,11 @@ Like a metronome counting off 10,000 brain cells per minute, Kev bangs his head 
 
 But Kev's pity party is short-lived. "Fool me twice...," he mutters under his breath, accepting responsibility for the path of shortsightedness that led him to this cleverly disguised opportunity. He's finally acknowledged the possibility (nay, probability) that he will need to swap his backend again at some point. Even if he doesn't, he shouldn't be relying on a particular storage engine if he wants to reuse any of these components in a different project. So his fingers hit the keys and like tiny little boxers punch out three simple functions:
 
-```get(key, callback)```
+```async get(key)```
 
-```set(key, value[, callback])```
+```async set(key, value[, { tags, ttl }])```
 
-```del(key[, callback])```
+```async del(key)```
 
 So far so good. Kev writes a basic in-memory adapter and sets up the simplest conceivable test as a sanity check. It passes! Convinced he is on to something, Kev hastily refactors his project to use this new API and gives it a spin.
 
@@ -34,11 +34,11 @@ So far so good. Kev writes a basic in-memory adapter and sets up the simplest co
 
 His console explodes in a flurry of incomprehensible stack traces. A brief moment of panic ensues before Kev realizes that his application is simply expecting data that still lives in Redis. He whips up an adapter and with a single-line change reconnects his project to its old storage backend.
 
-```var settings = Kev({ store: KevRedis( { port: process.env.REDIS_PORT } ) })```
+```var settings = Kev({ url: process.env.REDIS_URL })```
 
 It works! Kev's hands clench into fists and fly above his head in a celebratory spasm just awkward enough to expose a man whose encounters with success must be infrequent at best. But there is no time for victory dances; the moment of truth has arrived. Kev still needs out-of-memory persistence and already has a remote mongo store setup that he can use. He quickly pulls together a MongoDB adapter and writes a simple script (using his new API) to populate his new instance with the data from Redis. One more single-line change and Kev's project is using MongoDB instead of Redis.
 
-```var settings = Kev({ store: KevMongo( { url: process.env.MONGO_URL } ) })```
+```var settings = Kev({ url: process.env.MONGO_URL })```
 
 Kev is ecstatic. Where against a wall a head once beat in despair, a heart now beats in excitement. The skies have opened up and Kev has seen the light. Never again will his time be wasted on meaningless refactoring efforts. Never again will his settings, his caches, his packages, his *life* be bound to a particular persistence layer. He is free, and so are we.
 
@@ -47,14 +47,13 @@ You see, I am Kev. You are Kev. We are all Kev, living in fear of trading speed 
 
 ## Epilogue
 There is, of course, still work to do. Kev plans to implement the following features as the need arises:
- - Prefixed namespaces
- - Atomic operations
- - Batch puts/dels (adapter-specific)
- - LevelDB adapter
- - Streams
- - Glob-matching keys
+ - [x] Prefixed namespaces
+ - [x] Atomic operations
+ - [x] Update batching
+ - [x] Glob-matching keys
+ - [x] Key streams
+ - [x] At-rest compression
+ - [ ] LevelDB adapter
 
 ## Getting Kev
 ```npm install kev```
-
-Mongo and Redis are listed as dev dependencies to keep the footprint light. If you're using one of them for your storage layer, make sure you add it to your project's package.json independently.
