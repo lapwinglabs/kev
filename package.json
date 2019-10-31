@@ -21,7 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "mongodb": "2.x.x",
-    "mongoose": "4.4.7",
+    "mongoose": "5.7.7",
     "prok-wait": "0.0.3",
     "redis": "2.x.x"
   },
