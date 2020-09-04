@@ -20,7 +20,7 @@
   "author": "Lapwing Labs",
   "license": "MIT",
   "devDependencies": {
-    "mongodb": "2.x.x",
+    "mongodb": "3.x.x",
     "mongoose": "4.4.7",
     "prok-wait": "0.0.3",
     "redis": "2.x.x"
